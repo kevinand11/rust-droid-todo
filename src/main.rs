@@ -1,13 +1,16 @@
 use data::TodoState;
-use druid::{WindowDesc, AppLauncher};
+use druid::{
+    theme::{BUTTON_DARK, BUTTON_LIGHT, WINDOW_BACKGROUND_COLOR},
+    AppLauncher, Color, WindowDesc,
+};
 use im::Vector;
 use save::read_stored;
 
 use crate::ui::ui_builder;
 
-mod ui;
 mod data;
 mod save;
+mod ui;
 
 fn main() {
     let window = WindowDesc::new(ui_builder())
@@ -21,6 +24,11 @@ fn main() {
     };
 
     AppLauncher::with_window(window)
+        .configure_env(|env, _state| {
+            env.set(BUTTON_DARK, Color::rgba8(100, 100, 120, 0));
+            env.set(BUTTON_LIGHT, Color::rgba8(100, 100, 100, 100));
+            env.set(WINDOW_BACKGROUND_COLOR, Color::rgba8(0, 0, 0, 100));
+        })
         .launch(default_state)
         .expect("Failed to launch");
 }
